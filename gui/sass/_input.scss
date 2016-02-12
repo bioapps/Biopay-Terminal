@@ -1,0 +1,93 @@
+//
+// Input
+//
+.input {
+	font-size: 20px;
+	
+	button {
+		border: 0;
+		cursor: pointer;
+		font-family: inherit;
+		outline: 0;
+	}
+
+	&__btc-output,
+	&__currency-output {
+		background-color: #fff;
+		padding: 0.25em 16px;
+		text-align: right;
+	}
+
+	&__currency-output {
+		font-size: 2.5em;
+	}
+
+	&__pay-btn {
+		background-color: #45BF55;
+		color: #fff;
+		display: block;
+		font-size: 1.5em;
+		letter-spacing: .15em;
+		padding: .5em 16px;
+		text-align: right;
+		text-transform: uppercase;
+		transition: all .2s;
+		width: 100%;
+
+		&:hover {
+			background-color: darken(#45BF55, 2.5%);
+		}
+
+		&:active {
+			background-color: darken(#45BF55, 5%);
+		}
+	}
+
+	&__numpad {
+		display: flex;
+		flex-wrap: wrap;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+
+		.icon-delete {
+			width: 0.75em;
+		}
+
+		&-item {
+			flex: calc(100% / 3);
+		}
+
+		&-btn {
+			background-color: #ddd;
+			font-size: 1.75em;
+			padding: .6em 0;
+			-webkit-tap-highlight-color: transparent;
+			transition: all .2s;
+			width: 100%;
+
+			&:hover {
+				background-color: darken(#ddd, 2.5%);
+			}
+
+			&:active {
+				background-color: darken(#ddd, 5%);
+			}
+
+			//
+			// Modifier
+			//
+			&--type-dark {
+				background-color: #ccc;
+
+				&:hover {
+					background-color: darken(#ccc, 5%);
+				}
+
+				&:active {
+					background-color: darken(#ccc, 10%);
+				}
+			}
+		}
+	}
+}
