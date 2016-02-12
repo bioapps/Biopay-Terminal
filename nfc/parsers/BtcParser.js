@@ -15,10 +15,9 @@ const BtcParser = {
 
 			const value = record.value;
 
-			// Won't work since payload contains 'en' at start to indicate parse lang
-			// if (!value) {
-			// 	value = String.fromCharCode.apply(String, record.payload);
-			// }
+			if (!value) {
+				continue;
+			}
 
 			if (value.toLowerCase().substr(0, btcIdentifier.length) !== btcIdentifier) {
 				continue;
