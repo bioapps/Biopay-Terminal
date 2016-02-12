@@ -1,6 +1,6 @@
 'use strict';
 
-const Blockchain = require('./blockchain/Blockchain');
+const BlockchainService = require('./blockchain/BlockchainService');
 const _  = require('lodash');
 
 const baseConfig = {
@@ -16,7 +16,7 @@ module.exports = class PaymentService {
 
 	setupPaymentServices(config) {
 		this.paymentServices = {
-			bitcoins: new Blockchain(config.bitcoins)
+			bitcoins: new BlockchainService(config.bitcoins)
 		};
 	}
 
