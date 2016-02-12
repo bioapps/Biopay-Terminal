@@ -1,0 +1,7 @@
+.vscode
+node_modules
+
+local-data/
+
+# Gui
+gui/public/main.css
