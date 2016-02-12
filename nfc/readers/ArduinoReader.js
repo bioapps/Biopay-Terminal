@@ -2,7 +2,7 @@
 
 const serialport = require('serialport');
 const NfcProcess = require('./NfcProcess');
-const MessageCodes = require('./message-codes');
+const MessageCodes = require('./ArduinoReaderMessageCodes');
 
 const baseConfig = {
 	baudrate: 115200,
