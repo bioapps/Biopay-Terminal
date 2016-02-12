@@ -3,25 +3,20 @@
 require('colors');
 
 const blockchain = require('blockchain.info');
-const ConfirmationServer = require('./ConfirmationServer');
-const BitcoinUtils = require('./BitcoinUtils');
+const BitcoinUtils = require('biopay-bitcoins-lib').BitcoinUtils;
+const LocalWalletService = require('local-wallet-service');
 const request = require('request');
 
-// const ErrorMessages = require('./error-messages');
-
 const baseConfig = {
-	oldReceiveAddress: null, // Only used until we get an API code for V2
-
 	xPub: null,
 	receiveApiCode: null,
-	apiV2Code: null,
-	apiV2HostUrl: 'http://localhost:3000',
 
-	callbackUrl: null,
-	callbackServerPort: 8002
+	walletApiCode: null,
+
+	callbackUrl: null
 };
 
-module.exports = class Blockchain {
+module.exports = class BlockchainService {
 	constructor(config) {
 		this.config = Object.assign({}, baseConfig, config);
 
@@ -30,39 +25,30 @@ module.exports = class Blockchain {
 		}
 
 		if (!this.config.receiveApiCode && !this.config.oldReceiveAddress) {
-			throw Error('No receive api code or old receive address supplied to the Blockchain service');
+			throw Error('No receive api code supplied to the Blockchain service');
 		}
 
-		if (!this.config.apiV2Code) {
-			throw Error('No api code V2 supplied to the Blockchain service');
-		}
-
-		if (this.config.callbackUrl) {
-			this.setupConfirmationServer();
-		} else {
-			console.warn('No callback url set up for Blockchain, wont listen for confirmations'.yellow);
+		if (!this.config.walletApiCode) {
+			throw Error('No wallet api code supplied to the Blockchain service');
 		}
 
 		this.setupReceiver();
+		this.setupWalletService();
 
-		console.log(`Created Blockchain payment service with xPub address: ${this.config.xPub}`.yellow);
+		console.log(`Created Blockchain payment service`.yellow);
 	}
 
 	setupReceiver() {
 		const xPub = this.config.xPub;
 		const receiveApiCode = this.config.receiveApiCode;
-		const callbackUrl = (
-			this.config.callbackUrl
-			? this.config.callbackUrl + ':' + this.config.callbackServerPort
-			: 'http://0.0.0.0'
-		);
+		const callbackUrl = this.config.callbackUrl ? this.config.callbackUrl : 'http://0.0.0.0';
 
 		this.receiver = new blockchain.Receive(xPub, callbackUrl, receiveApiCode);
 	}
 
-	setupConfirmationServer() {
-		this.confirmationServer = new ConfirmationServer({
-			port: this.config.callbackServerPort
+	setupWalletService() {
+		this.walletService = new LocalWalletService({
+			apiCode: this.config.walletApiCode
 		});
 	}
 
@@ -112,14 +98,14 @@ module.exports = class Blockchain {
 		const password = paymentData.password;
 
 		const wallet = new blockchain.MyWallet(identifier, password, {
-			apiCode: this.config.apiV2Code,
+			apiCode: this.config.walletApiCode,
 			apiHost: this.config.apiV2HostUrl
 		});
 
 		this.fixMyWalletParamsHack(wallet);
 
 		return Promise.all([
-				this.getReceiveAddress(),	// eslint-disable-line indent
+				this.receiver.generate(),	// eslint-disable-line indent
 				wallet.login()				// eslint-disable-line indent
 			])								// eslint-disable-line indent
 			.then(values => {
@@ -146,33 +132,6 @@ module.exports = class Blockchain {
 					message: error
 				};
 			});
-	}
-
-	//
-	// Generates an address where coins can be transfered to
-	// This abstraction method is only needed until we have an API V2 code for receiving
-	//
-	getReceiveAddress() {
-		if (!this.config.receiveApiCode && this.config.oldReceiveAddress) {
-			// Use old way, not supported after 1/1-2016
-			return new Promise((resolve, reject) => {
-				const url = `https://blockchain.info/api/receive?method=create&address=${this.config.oldReceiveAddress}`;
-
-				request(url, (error, response, body) => {
-					const parsed = JSON.parse(body);
-
-					if (error || response.statusCode !== 200) {
-						return reject(error || parsed);
-					}
-
-					resolve({
-						address: parsed.input_address
-					});
-				});
-			});
-		}
-
-		return this.receiver.generate();
 	}
 
 	//
