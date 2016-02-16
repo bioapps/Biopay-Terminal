@@ -1,6 +1,10 @@
 {
 	"bitcoins": {
-		"receiveAddress": "",
+		"xPub": "",
+		"receiveApiCode": "",
+
+		"walletApiCode": "",
+
 		"callbackUrl": ""
 	}
 }
