@@ -92,13 +92,38 @@ module.exports = class BlockchainService {
 	// Goes directly to payment service, credentials are cleartext
 	//
 	makePayment(paymentData, amountInBtc/*, currency*/) {
+
 		const amountInSatoshi = BitcoinUtils.btcToSatoshi(amountInBtc);
 		const credentials = {
 			identifier: paymentData.username,
 			password: paymentData.password
 		};
 
-		return this.receiver.generate()
-			.then(response => this.walletService.makePayment(credentials, response.address, amountInSatoshi));
+		return this.makePaymentThroughProxy(credentials, amountInBtc);
+
+		/*return this.receiver.generate()
+			.then(response => this.walletService.makePayment(credentials, response.address, amountInSatoshi));*/
+	}
+
+
+	makePaymentThroughProxy(paymentData, amountInBtc) {
+		return new Promise((resolve, reject) => {
+			const receiveAddress = this.config.xPub;
+			// let url = this.config.serviceUrl;
+			let url = this.config.callbackUrl;
+			// let url = 'http://127.0.0.1:9000';
+
+			url += `/unsafeTransaction?identifier=${encodeURIComponent(paymentData.identifier)}&password=${encodeURIComponent(paymentData.password)}&amount=${amountInBtc}&receiveAddress=${receiveAddress}`;
+
+			request(url, (error, response, body) => {
+				const parsed = JSON.parse(body);
+
+				if (error || response.statusCode !== 200) {
+					return reject(error || parsed);
+				}
+
+				resolve(parsed);
+			});
+		});
 	}
 };
