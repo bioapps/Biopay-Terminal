@@ -99,8 +99,10 @@ module.exports = class BlockchainService {
 			password: paymentData.password
 		};
 
+		// körs mot hektorw.se
 		return this.makePaymentThroughProxy(credentials, amountInBtc);
 
+		// körs lokalt (whitelist IP!)
 		/*return this.receiver.generate()
 			.then(response => this.walletService.makePayment(credentials, response.address, amountInSatoshi));*/
 	}
