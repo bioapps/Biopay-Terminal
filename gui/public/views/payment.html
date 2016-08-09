@@ -1,5 +1,59 @@
-<section id="payment-value" ng-controller="paymentInputController">
+<section class="input" ng-controller="paymentInputController">
+	<div class="input__btc-output">
+		{[{convertedPrice}]}
+		<!-- <input ng-model="convertedPrice" class="value" type="text" value="BTC 0.00" readonly=""> -->
+	</div>
+	<div class="input__currency-output">
+		{[{price}]}
+		<!-- <input ng-model="price" class="value" type="text" value="0.00" /> -->
+	</div>
+	<button class="input__pay-btn" ng-click="confirmClickHandler()">Pay</button>
+	<ul class="input__numpad">
+		<li class="input__numpad-item">
+			<button class="input__numpad-btn" ng-click="numberClickHandler(1)">1</button>
+		</li>
+		<li class="input__numpad-item">
+			<button class="input__numpad-btn" ng-click="numberClickHandler(2)">2</button>
+		</li>
+		<li class="input__numpad-item">
+			<button class="input__numpad-btn" ng-click="numberClickHandler(3)">3</button>
+		</li>
+		<li class="input__numpad-item">
+			<button class="input__numpad-btn" ng-click="numberClickHandler(4)">4</button>
+		</li>
+		<li class="input__numpad-item">
+			<button class="input__numpad-btn" ng-click="numberClickHandler(5)">5</button>
+		</li>
+		<li class="input__numpad-item">
+			<button class="input__numpad-btn" ng-click="numberClickHandler(6)">6</button>
+		</li>
+		<li class="input__numpad-item">
+			<button class="input__numpad-btn" ng-click="numberClickHandler(7)">7</button>
+		</li>
+		<li class="input__numpad-item">
+			<button class="input__numpad-btn" ng-click="numberClickHandler(8)">8</button>
+		</li>
+		<li class="input__numpad-item">
+			<button class="input__numpad-btn" ng-click="numberClickHandler(9)">9</button>
+		</li>
+		<li class="input__numpad-item">
+			<button class="input__numpad-btn input__numpad-btn--type-dark" ng-click="decimalClickHandler()">.</button>
+		</li>
+		<li class="input__numpad-item">
+			<button class="input__numpad-btn" ng-click="numberClickHandler(0)" class="zero">0</button>
+		</li>
+		<li class="input__numpad-item">
+			<button class="input__numpad-btn input__numpad-btn--type-dark" ng-click="eraseClickHandler()">
+				<svg class="icon icon-delete" viewBox="0 0 1024 1024">
+					<path class="path1" d="M341.333 128h554.667q53 0 90.5 37.5t37.5 90.5v512q0 53-37.5 90.5t-90.5 37.5h-554.667l-341.333-384zM896 213.333h-516.333l-265.333 298.667 265.333 298.667h516.333q17.667 0 30.167-12.5t12.5-30.167v-512q0-17.667-12.5-30.167t-30.167-12.5zM810.667 384q0 18-12.333 30.333l-98 97.667 98 97.667q12.333 12.333 12.333 30.333 0 18.333-12.167 30.5t-30.5 12.167q-18 0-30.333-12.333l-97.667-98-97.667 98q-12.333 12.333-30.333 12.333-17.667 0-30.167-12.5t-12.5-30.167q0-17.333 12.333-30.333l98-97.667-98-97.667q-12.333-13-12.333-30.333 0-17.667 12.5-30.167t30.167-12.5q18 0 30.333 12.333l97.667 98 97.667-98q12.333-12.333 30.333-12.333 18.333 0 30.5 12.167t12.167 30.5z"></path>
+				</svg>
+			</button>
+		</li>
+	</ul>
 	<div><img src="images/logos.png" alt=""></div>
+</section>
+
+<!-- <section id="payment-value" ng-controller="paymentInputController">
 	<div class="converted-output"><input ng-model="convertedPrice" class="value" type="text" value="BTC 0.00" readonly=""></div>
 	<div class="output"><input ng-model="price" class="value" type="text" value="0.00" /></div>
 	<ul>
@@ -20,4 +74,4 @@
 		<li><button ng-click="eraseClickHandler()" class="erase"><</button></li>
 		<li><button ng-click="confirmClickHandler()" class="confirm">o</button></li>
 	</ul>
-</section>
+</section> -->

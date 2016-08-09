@@ -1,29 +1,15 @@
-# Node
-Contains 3 different systems and an app to tie them together.
+# Biopay-Terminal
+Running the app requires a folder called "local-data" in the root directory with a file named "payment-services.json" which should contain data needed to run the app. 
 
-The systems are:
-* gui
-* nfc reader
-* payment service
-
-## App
-Running the app currently requires a folder "_nfc-pay" in the home directory with two files "nfc.json" and "blockchain.json" which contains data needed to test tha app. 
-
-nfc.json
+payment-services.json
 ```
 {
 	"bitcoins": {
-		"username": "your blockchain guid",
-		"password": "your blockchain password"
+		"xPub": "A blockchain xPub address",
+		"receiveApiCode": "Api code for blockchain receive api",
+		"walletApiCode": "Api code for blockchain wallet api",
+		"callbackUrl": "Public facing url for confirmation callbacks"
 	}
-}
-```
-
-blockchain.json
-```
-{
-	"receiveAddress": "your blockchain address",
-	"callbackUrl": "public facing url for confirmation callbacks"
 }
 ```
 
@@ -32,7 +18,7 @@ Running the app will start up a server that host's the gui and expose an api for
 To run the app type the following.
 
 ```
-npm run app
+npm start
 ```
 
 ## GUI
@@ -41,10 +27,3 @@ To run only gui without payment enabled type
 ```
 npm run gui
 ```
-
-## Nfc
-Nfc module currently only returns what's found in nfc.json in "~/_nfc-pay" for the type sent in.
-
-
-## Payment service
-Make actual payments with blockchain API but doesn't listen to confirmations yet.

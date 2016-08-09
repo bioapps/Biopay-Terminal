@@ -2,8 +2,7 @@
 
 const _ = require('lodash');
 
-const MessageCodes = require('./message-codes');
-const ErrorCodes = require('./error-codes');
+const MessageCodes = require('./ArduinoReaderMessageCodes');
 
 class ArduinoReadProcess {
 	constructor(connection, message, eventEmitter) {
@@ -63,7 +62,7 @@ class ArduinoReadProcess {
 			case MessageCodes.states.error:
 				this.reject({
 					errorType: 'nfc-read',
-					errorMessage: ErrorCodes.foo // Find error code
+					errorMessage: 'Error reading' // Find error code
 				});
 				break;
 			

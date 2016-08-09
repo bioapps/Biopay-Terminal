@@ -165,7 +165,7 @@ module.exports = class GUIServer {
 				return;
 			}
 
-			console.log(`Request for new payment: ${JSON.stringify({type,paymentData,amount,currency})}`.magenta);
+			console.log(`Request for new payment: ${JSON.stringify({/*type,paymentData,*/amount,currency})}`.magenta);
 
 			this.paymentApp.makePayment(type, paymentData, amount, currency)
 				.then((result) => {
